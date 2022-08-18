@@ -1,0 +1,10 @@
+.notification-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+}
+.notification-date{
+    color: #3965F3;
+    font-weight: 900;
+}

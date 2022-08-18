@@ -1,0 +1,67 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --mint-color: #92bb35;
+    --green-color: #86AD86;
+    --pink-color: #FD8383;
+    --orange-color: #F18121;
+    --blue-color: #8EB3FD;
+    --header-color: #3965F3;
+    --background-color: #f3f1f1ec;
+}
+
+.main {
+    width: 100%;
+    background-color: var(--background-color);
+}
+
+/* Header */
+#header {
+    color: white;
+    background-color: var(--header-color);
+    font-size: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+
+.section {
+    font-size: 16px;
+    color: #333;
+}
+
+.section-title {
+    font-weight: 500;
+    font-size: 20px;
+    border-bottom: 1px solid #e6e6e6;
+}
+.manager-card-body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.content-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 20px;
+}
+
+.manager-content-wrapper{
+    width: 300px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.manager-card .manager-card:hover{
+    color: #3965F3 !important;
+}

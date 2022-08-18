@@ -1,0 +1,218 @@
+.login-page-wrapper {
+    background: url("../../assets/signup-background.png");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-position: center center;
+    background-size: inherit;
+}
+
+.l-p-header-wrapper {
+    width: calc(100%);
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    padding: 7.5px 10px 7.5px 10px;
+}
+
+.h-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.h-text {
+    font-size: 20px;
+    font-family: Poppins;
+    font-weight: 900;
+}
+
+.login-wrapper {
+    height: calc(100vh - 55px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    ;
+}
+
+.login-container {
+    width: 45%;
+    min-height: 476px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.login-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 50px;
+}
+
+
+.l-side-background {
+    margin-top: 120px;
+    margin-right: 120px;
+    height: 400px;
+}
+
+.l-main-text {
+    font-size: 42px;
+    color: #3965F3;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.l-sub-text {
+    font-size: 24px;
+    color: #3965F3;
+    font-weight: 600;
+    margin-bottom: 15px;
+
+}
+
+.l-u-text,
+.l-p-text {
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.l-u-icon,
+.l-p-icon {
+    position: absolute;
+    color: rgb(59, 59, 59);
+    font-size: 24px;
+    font-weight: lighter;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.l-u-input,
+.l-p-input {
+    width: 550px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: 50px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.l-u-input::placeholder,
+.l-p-input::placeholder {
+    font-family: Poppins;
+    font-weight: 600;
+    color: rgb(122, 122, 122);
+}
+
+.l-u-input:focus,
+.l-p-input:focus {
+    border: 2px solid #3965F3;
+    resize: none;
+    outline: none;
+}
+
+.l-u-input-valid,
+.l-p-input-valid {
+    border: 2px solid #00BE5E;
+    resize: none;
+    outline: none;
+}
+
+.l-u-input-valid:focus,
+.l-p-input-valid:focus {
+    border: 2px solid #00BE5E;
+    resize: none;
+    outline: none;
+}
+
+.l-u-input-invalid,
+.l-p-input-invalid {
+    border: 2px solid red;
+    resize: none;
+    outline: none;
+}
+
+.l-u-input-invalid:focus,
+.l-p-input-invalid:focus {
+    border: 2px solid red;
+    resize: none;
+    outline: none;
+}
+
+.l-u-input:focus::placeholder,
+.l-p-input:focus::placeholder {
+    color: transparent;
+    transition: color 0.25s ease-in;
+}
+
+.l-u-invalid,
+.l-p-invalid {
+    font-size: 16px;
+    font-family: Poppins;
+    font-weight: 600;
+    color: red;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    transition: all 0.25s ease-in;
+}
+
+.l-u-invalid-icon,
+.l-p-invalid-icon {
+    position: absolute;
+    color: white;
+    margin-left: -60px;
+    margin-top: 10px;
+    background-color: red;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.l-u-valid-icon,
+.l-p-valid-icon {
+    position: absolute;
+    color: white;
+    background-color: #00BE5E;
+    width: 25px;
+    height: 25px;
+    margin-left: -60px;
+    margin-top: 10px;
+    border-radius: 50%;
+}
+
+.l-login-button {
+    font-family: 'Poppins', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: #3965F3;
+    border-radius: 2.5px;
+    color: #ffffff;
+    width: 150px;
+    height: 40px;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.l-login-button:disabled {
+    background-color: grey;
+    cursor: context-menu;
+}

@@ -1,0 +1,7 @@
+.c-btn-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: space-between;
+    gap: 100px;
+}

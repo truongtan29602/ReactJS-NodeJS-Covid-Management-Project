@@ -1,0 +1,12 @@
+.statistics-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.statistic-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2%;
+    font-family: 'Poppins', sans-serif;
+}
