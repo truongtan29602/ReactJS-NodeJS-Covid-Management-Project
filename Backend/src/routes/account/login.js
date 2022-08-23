@@ -28,9 +28,8 @@ const {
   url_get_balance_debt,
   url_get_in_debt_user_list,
   url_get_total_packages_purchased,
+  url_is_authenticated,
 } = require("../../constant/url");
-const verifySecurity = require("../../middleware/auth");
-
 const UserControllers = require("../../controllers/usercontrollers");
 
 function route(app) {
@@ -93,6 +92,7 @@ function route(app) {
     url_get_total_packages_purchased,
     UserControllers.getTotalPackagesPurchased
   );
+  app.post(url_is_authenticated, UserControllers.IsAuthenticated);
 }
 
 module.exports = route;

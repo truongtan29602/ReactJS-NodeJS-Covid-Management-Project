@@ -243,6 +243,36 @@ class UserModel {
     }
   }
 
+  static async authPaymentAccount(token){
+    if(token){
+      const decoded = jwt.verify(token, 'mysecrettoken');
+      let sql = `UPDATE payment_account SET token = '${token}' WHERE user_id = ${decoded.user.id}`
+      return host.execute(sql); 
+    }
+  }
+
+  static async removeAuthPaymentAccount(token){
+    if(token){
+      const decoded = jwt.verify(token, 'mysecrettoken');
+      let sql = `UPDATE payment_account SET token = ${null} WHERE user_id = ${decoded.user.id}`
+      await host.execute(sql);
+      return true; 
+    }
+  }
+
+  static async IsAuthenticated(data){
+    const decoded = jwt.verify(data.token, 'mysecrettoken');
+    if(decoded.user.id !== data.user_id)
+      return false;
+    let sql = `SELECT * FROM payment_account WHERE user_id = ${decoded.user.id}`;
+    const [result, _] = await host.execute(sql);
+    if(result[0]){
+      if(result[0]["token"] === data.token)
+        return true;
+    }
+    return false;
+  }
+
   static async validatePaymentLogin(data) {
     if (data.ID) {
       var [result, _] = await UserModel.findPaymentUserByID(data.ID);

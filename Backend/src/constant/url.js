@@ -73,6 +73,9 @@ const url_payment_reset_pw = "/v1/api/auth/payment-reset-password";
 //send notification
 const url_send_notification = "/v1/api/auth/send-notification";
 
+//authorization
+const url_is_authenticated = "/v1/api/auth/is-authenticated";
+
 module.exports = {
   url_add_treatment_location,
   url_add_related_user,
@@ -132,5 +135,6 @@ module.exports = {
   url_debt_process,
   url_topup,
   url_payment_reset_pw,
-  url_send_notification
+  url_send_notification,
+  url_is_authenticated
 };

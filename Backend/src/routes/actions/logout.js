@@ -5,7 +5,7 @@ const UserControllers = require("../../controllers/usercontrollers");
 
 
 const logoutRoute = app => {
-    app.post(url_logout,UserControllers.logout)
+    app.post(url_logout, UserControllers.logout)
 }
 
 

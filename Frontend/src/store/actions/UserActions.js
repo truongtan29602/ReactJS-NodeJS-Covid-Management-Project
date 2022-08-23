@@ -1052,12 +1052,20 @@ export const debtProcess = (
 export const topup = (user_id, balance, debt, oldDebt) => {
   return async (dispatch) => {
     return await axios
-      .post("/v1/api/auth/topup", {
-        user_id: user_id,
-        balance: balance,
-        debt: debt,
-        old_debt: oldDebt,
-      })
+      .post(
+        "/v1/api/auth/topup",
+        {
+          user_id: user_id,
+          balance: balance,
+          debt: debt,
+          old_debt: oldDebt,
+        },
+        {
+          headers: {
+            Authorization: `${JSON.parse(localStorage.getItem("token"))}`,
+          },
+        }
+      )
       .then((res) /*response*/ => {
         return res.data;
       })
@@ -1071,11 +1079,19 @@ export const topup = (user_id, balance, debt, oldDebt) => {
 export const paymentResetPassword = (user_id, currentPassword, newPassword) => {
   return async (dispatch) => {
     return await axios
-      .post("/v1/api/auth/payment-reset-password", {
-        user_id: user_id,
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      })
+      .post(
+        "/v1/api/auth/payment-reset-password",
+        {
+          user_id: user_id,
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        },
+        {
+          headers: {
+            Authorization: `${JSON.parse(localStorage.getItem("token"))}`,
+          },
+        }
+      )
       .then((res) /*response*/ => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return res.data;
@@ -1107,7 +1123,25 @@ export const sendNotification = (user_id, debt) => {
     return await axios
       .post("/v1/api/auth/send-notification", {
         user_id: user_id,
-        debt: debt
+        debt: debt,
+      })
+      .then((res) /*response*/ => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return res.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  };
+};
+
+//isAuthenticated
+export const isAuthenticated = (token, user_id) => {
+  return async (dispatch) => {
+    return await axios
+      .post("/v1/api/auth/is-authenticated", {
+        token: token,
+        user_id: user_id
       })
       .then((res) /*response*/ => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -1120,7 +1154,21 @@ export const sendNotification = (user_id, debt) => {
 };
 
 // Logout
-export const logout = () => ({ type: UserConstants.LOGOUT });
+export const logout = (token) => {
+  return async (dispatch) => {
+    return await axios
+      .post("/v1/api/auth/logout", {
+        token: token,
+      })
+      .then((res) /*response*/ => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return res.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  };
+};
 
 export const UserActions = {
   signUpAdmin,
@@ -1180,4 +1228,5 @@ export const UserActions = {
   getInDebtUserList,
   sendNotification,
   logout,
+  isAuthenticated,
 };

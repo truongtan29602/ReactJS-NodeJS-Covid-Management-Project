@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { UserActions } from "../../../store/actions/UserActions";
 import "./UserSidebar.css";
 
 const UserSidebar = (props) => {
@@ -8,6 +11,26 @@ const UserSidebar = (props) => {
   const [purchase, setPurchase] = useState(false);
 
   const params = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const redirectPaymentSystem = () => {
+    dispatch(
+      UserActions.isAuthenticated(JSON.parse(localStorage.getItem("token")), params.user_id)
+    ).then((result) => {
+      if (result.state) history.push(`/paymentSystem/user/` + result.user_id);
+      else history.push(`/paymentSystem/sign-in`);
+    });
+  };
+
+  const logout = () => {
+    dispatch(
+      UserActions.logout(JSON.parse(localStorage.getItem("token")))
+    ).then((result) => {
+      localStorage.setItem("token", null);
+      if (result.state) history.push(`/sign-in`);
+    });
+  };
   return (
     <div className="sidebar">
       <div className="sidebar-item">
@@ -112,20 +135,20 @@ const UserSidebar = (props) => {
       </div>
       <div className="sidebar-item">
         <div className="title">
-          <a className="d-block" href={"/paymentSystem/sign-in"}>
+          <div className="d-block" onClick={redirectPaymentSystem}>
             <i className="fas fa-university"></i> Payment system
-          </a>
+          </div>
         </div>
       </div>
-      <div className="sidebar-item">
-        <a className="d-block" href={"/sign-in"}>
+      <div className="sidebar-item" onClick={logout}>
+        <div className="d-block">
           <div className="title">
             <span className="angle-right">
               <i className="fas fa-angle-right"></i>{" "}
             </span>
             Logout
           </div>
-        </a>
+        </div>
       </div>
     </div>
   );

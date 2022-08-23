@@ -63,6 +63,9 @@ const SignIn = ({ login, isAuthenticated }) => {
             type: "USERS_LOGIN_SUCCESS",
             payload: result.profile,
           });
+          if(result.token){
+            localStorage.setItem('token', JSON.stringify(result.token));
+          }
           if (result.profile.role === "admin") history.push("/admin");
           if (result.profile.role === "manager")
             history.push(`/manager/${result.profile.account_id}`);

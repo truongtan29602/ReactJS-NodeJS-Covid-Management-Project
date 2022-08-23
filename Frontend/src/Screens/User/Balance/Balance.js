@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./Balance.css";
 import UserSidebar from "../UserSidebar/UserSidebar";
@@ -13,6 +14,17 @@ const Balance = (props) => {
 
   const dispatch = useDispatch();
   const { user_id } = useParams();
+  const history = useHistory();
+
+  const redirectPaymentSystem = () => {
+    dispatch(
+      UserActions.isAuthenticated(JSON.parse(localStorage.getItem("token")), user_id)
+    ).then((result) => {
+      if (result.state)
+        history.push(`/paymentSystem/user/` + result.user_id);
+      else history.push(`/paymentSystem/sign-in`);
+    });
+  };
 
   useEffect(() => {
     dispatch(UserActions.getBalanceDebt(user_id)).then((result) => {
@@ -70,11 +82,9 @@ const Balance = (props) => {
                 />
               </div>
               <div className="w-100 text-center">
-                <a href="/paymentSystem/sign-in">
-                  <button className="btn btn-success w-25 text-center">
+                  <button className="btn btn-success w-25 text-center" onClick={redirectPaymentSystem}>
                     Top-up
                   </button>
-                </a>
               </div>
             </div>
           </div>

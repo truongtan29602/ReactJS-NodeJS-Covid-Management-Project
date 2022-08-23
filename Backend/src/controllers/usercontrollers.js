@@ -77,20 +77,35 @@ class UserControllers {
             "Success"
           );
         }
+        const payload = {
+          user: {
+            id: result[0]["account_id"],
+          },
+        };
 
-        return res.json({
-          loginState: true,
-          statusCode: 200,
-          profile: result[0],
-          account_id: result[0]["account_id"],
-        });
+        jwt.sign(
+          payload,
+          "mysecrettoken",
+          { expiresIn: "5 days" },
+          (err, token) => {
+            if (err) console.log(err);
+            UserModel.authPaymentAccount(token);
+            return res.json({
+              token: token,
+              loginState: true,
+              statusCode: 200,
+              profile: result[0],
+              account_id: result[0]["account_id"],
+            });
+          }
+        );
       }
     } catch (error) {
       return res.json({
         loginState: false,
         err: error,
         statusCode: 401,
-        account_id: -1,
+        account_id: null,
       });
     }
   }
@@ -119,12 +134,22 @@ class UserControllers {
           loginState: false,
         });
       } else {
-        return res.json({
-          loginState: true,
-          statusCode: 200,
-          profile: result[0],
-          account_id: result[0]["account_id"],
-        });
+        jwt.sign(
+          payload,
+          "mysecrettoken",
+          { expiresIn: "5 days" },
+          (err, token) => {
+            if (err) console.log(err);
+            UserModel.authPaymentAccount(token);
+            return res.json({
+              token: token,
+              loginState: true,
+              statusCode: 200,
+              profile: result[0],
+              account_id: result[0]["account_id"],
+            });
+          }
+        );
       }
     } catch (error) {
       return res.json({
@@ -132,6 +157,28 @@ class UserControllers {
         err: error,
         statusCode: 401,
         account_id: -1,
+      });
+    }
+  }
+
+  static async IsAuthenticated(req, res) {
+    try {
+      var result = await UserModel.IsAuthenticated(req.body);
+      if (result) {
+        const decoded = jwt.verify(req.body.token, "mysecrettoken");
+        res.status(200).json({
+          state: result,
+          user_id: decoded.user.id,
+        });
+      } else {
+        res.status(200).json({
+          state: result,
+        });
+      }
+    } catch (error) {
+      res.status(404).json({
+        state: false,
+        err: error,
       });
     }
   }
@@ -152,11 +199,13 @@ class UserControllers {
 
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
+
       let usermodel = new UserModel(req.body);
 
       usermodel = await usermodel.register();
 
       var [result, _] = await UserModel.findUserByUsername(req.body.username);
+
       return res.json({
         registerState: true,
         statusCode: 200,
@@ -573,14 +622,15 @@ class UserControllers {
 
   static logout = async (req, res) => {
     try {
-      const [result, _] = await UserModel.logout(req.body);
+      console.log(req.body);
+      const result = await UserModel.removeAuthPaymentAccount(req.body.token);
       if (result) {
         res.json({
-          status: true,
+          state: true,
         });
       } else {
         res.json({
-          status: false,
+          state: false,
         });
       }
     } catch (error) {
@@ -1087,24 +1137,44 @@ class UserControllers {
 
   static paymentResetPassword = async (req, res) => {
     try {
-      var checkValidate = await UserModel.validatePaymentPassword(req.body);
-      if (!checkValidate.state) {
-        if (checkValidate.error) {
-          return res.json({
-            error: checkValidate.error,
+      const token = req.headers["authorization"];
+      if (token !== "null") {
+        const data = { token: token, user_id: parseInt(req.body.user_id) };
+        var result = await UserModel.IsAuthenticated(data);
+        if (result) {
+          var checkValidate = await UserModel.validatePaymentPassword(req.body);
+          if (!checkValidate.state) {
+            if (checkValidate.error) {
+              return res.json({
+                error: checkValidate.error,
+                resetPasswordState: false,
+              });
+            }
+            return res.json({
+              error: "Current password is incorrect",
+              resetPasswordState: false,
+            });
+          } else {
+            const salt = await bcrypt.genSalt(10);
+            req.body.newPassword = await bcrypt.hash(
+              req.body.newPassword,
+              salt
+            );
+            await UserModel.paymentResetPassword(req.body);
+            return res.json({
+              resetPasswordState: true,
+            });
+          }
+        } else {
+          res.status(200).json({
             resetPasswordState: false,
+            error: "Unauthorized action",
           });
         }
-        return res.json({
-          error: "Current password is incorrect",
-          resetPasswordState: false,
-        });
       } else {
-        const salt = await bcrypt.genSalt(10);
-        req.body.newPassword = await bcrypt.hash(req.body.newPassword, salt);
-        await UserModel.paymentResetPassword(req.body);
-        return res.json({
-          resetPasswordState: true,
+        res.status(200).json({
+          resetPasswordState: false,
+          error: "Unauthorized action",
         });
       }
     } catch (error) {

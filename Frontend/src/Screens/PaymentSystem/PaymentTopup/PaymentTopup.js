@@ -47,6 +47,7 @@ const PaymentTopup = (props) => {
     console.log(newBalance);
     console.log(newDebt);
     dispatch(UserActions.topup(user_id, newBalance, newDebt, oldDebt)).then((result) => {
+      console.log(result);
       if (result.status) {
         alert("Topup successfully");
         dispatch(UserActions.getBalanceDebt(user_id)).then((result) => {
